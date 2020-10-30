@@ -16,9 +16,10 @@ fetch(randomUserUrl)
 //using “Handle Multiple Promises with Promise.all” video
 function generateCard(data) {
     data.map(results => { 
-        const section = document.createElement('section');
-        gallery.appendChild(section);
-        section.innerHTML = `
+        // const section = document.createElement('section');
+        // gallery.appendChild(section);
+        gallery.innerHTML =
+         `
     <div class="card">
     <div class="card-img-container">
         <img class="card-img" src="${results.picture.large}" alt="profile picture">
@@ -31,9 +32,12 @@ function generateCard(data) {
         </div>
     `;
     });
+   
 }
 
 
+
+   
 
 
 

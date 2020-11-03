@@ -1,6 +1,7 @@
 const randomUserUrl = 'https://randomuser.me/api/?results=12';
 const gallery = document.getElementById('gallery');
-const card = document.querySelector('.card');
+let card = document.querySelectorAll('.card');
+const body = document.querySelector('body');
 
 //using fetch to fetch the random users
 //then parsing the data to json
@@ -15,7 +16,7 @@ fetch(randomUserUrl)
 //using placeholders to retrieve data with the given results
 //helpful links: “Handle Multiple Promises with Promise.all”, doggoselect workspace
 function generateCard(data) {
-    const getCards = data.map(results => { `
+    const getCards = data.map(results => { return `
         <div class="card">
         <div class="card-img-container">
             <img class="card-img" src="${results.picture.large}" alt="profile picture">
@@ -31,20 +32,9 @@ function generateCard(data) {
 }
 
 
+card.addEventListener('click', console.log('Hi'));
 
 
-
-
-   
-
-
-
-
-
-
-
-
-          
 
 
 

@@ -1,6 +1,5 @@
 const randomUserUrl = 'https://randomuser.me/api/?results=12';
 const gallery = document.getElementById('gallery');
-let card = document.querySelectorAll('.card');
 const body = document.querySelector('body');
 
 //using fetch to fetch the random users
@@ -9,13 +8,14 @@ const body = document.querySelector('body');
 //(used "Displaying the Content" video to set up this fetch request)
 fetch(randomUserUrl) 
     .then(res => res.json())
-    .then(data => generateCard(data.results))
+    .then(data => x(data.results))
+    .then(() => createCard())
 
 //creating the generateCards function 
 //looping thru the results of the people generated
 //using placeholders to retrieve data with the given results
 //helpful links: “Handle Multiple Promises with Promise.all”, doggoselect workspace
-function generateCard(data) {
+const x = function generateCard(data) {
     const getCards = data.map(results => { return `
         <div class="card">
         <div class="card-img-container">
@@ -31,11 +31,36 @@ function generateCard(data) {
         gallery.innerHTML = getCards;
 }
 
+function createCard() {
+gallery.addEventListener('click', (e) => {
+    if (e.target.tagName == 'DIV') {
+        console.log(e.target);
+        generateModal();
+    }
+});
+}
 
-card.addEventListener('click', console.log('Hi'));
-
-
-
-
-
+function generateModal(data) {
+    const modalConatiner = data.map(results => { return
+    `
+        <div class="modal-container">
+        <div class="modal">
+            <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
+            <div class="modal-info-container">
+                <img class="modal-img" src="${results.picture.thumbnail}" alt="profile picture">
+                <h3 id="name" class="modal-name cap">${results.name.first} ${results.name.last}</h3>
+                <p class="modal-text">${results.email}</p>
+                <p class="modal-text cap">${results.location.city}</p>
+                <hr>
+                <p class="modal-text">${results.phone}</p>
+                <p class="modal-text">${results.location.street.number} ${results.location.street.name} 
+                ${results.location.city}, ${results.location.state}
+                ${results.location.postcode}</p>
+                <p class="modal-text">Birthday: ${results.dob.date}</p>
+            </div>
+        </div>
+        `;
+    });
+        body.innerHTML = modalConatiner;
+}
 

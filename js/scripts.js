@@ -8,14 +8,15 @@ const body = document.querySelector('body');
 //(used "Displaying the Content" video to set up this fetch request)
 fetch(randomUserUrl) 
     .then(res => res.json())
-    .then(data => x(data.results))
-    .then(() => createCard())
+    .then(data => generateCard(data.results))
+    .then(() => createModalPopout())
+    //.then( () => generateModal())
 
 //creating the generateCards function 
 //looping thru the results of the people generated
 //using placeholders to retrieve data with the given results
 //helpful links: “Handle Multiple Promises with Promise.all”, doggoselect workspace
-const x = function generateCard(data) {
+function generateCard(data) {
     const getCards = data.map(results => { return `
         <div class="card">
         <div class="card-img-container">
@@ -29,38 +30,44 @@ const x = function generateCard(data) {
             </div>
         `}).join('');
         gallery.innerHTML = getCards;
+        //gallery.insertAdjacentHTML('beforeend', getCards);
 }
 
-function createCard() {
-gallery.addEventListener('click', (e) => {
-    if (e.target.tagName == 'DIV') {
+function createModalPopout() {
+    gallery.addEventListener('click', (e) => {
+    if (e.target.tagName === 'DIV' && e.target !== gallery) {
         console.log(e.target);
         generateModal();
     }
 });
 }
 
-function generateModal(data) {
-    const modalConatiner = data.map(results => { return
-    `
-        <div class="modal-container">
-        <div class="modal">
-            <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
-            <div class="modal-info-container">
-                <img class="modal-img" src="${results.picture.thumbnail}" alt="profile picture">
-                <h3 id="name" class="modal-name cap">${results.name.first} ${results.name.last}</h3>
-                <p class="modal-text">${results.email}</p>
-                <p class="modal-text cap">${results.location.city}</p>
-                <hr>
-                <p class="modal-text">${results.phone}</p>
-                <p class="modal-text">${results.location.street.number} ${results.location.street.name} 
-                ${results.location.city}, ${results.location.state}
-                ${results.location.postcode}</p>
-                <p class="modal-text">Birthday: ${results.dob.date}</p>
-            </div>
+function generateModal() { 
+    const modalConatiner = person => { return `
+    <div class="modal-container">
+    <div class="modal">
+        <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
+        <div class="modal-info-container">
+            <img class="modal-img" src="${person.picture.large}" alt="profile picture">
+            <h3 id="name" class="modal-name cap">${person.name.first} ${person.name.last}</h3>
+            <p class="modal-text">${person.email}</p>
+            <p class="modal-text cap">${person.location.city}</p>
+            <hr>
+            <p class="modal-text">${person.phone}</p>
+            <p class="modal-text">${person.location.street.number} ${person.location.street.name} 
+            ${person.location.city}, ${person.location.state}
+            ${person.location.postcode}</p>
+            <p class="modal-text">Birthday: ${person.dob.date}</p>
         </div>
-        `;
-    });
-        body.innerHTML = modalConatiner;
+    </div>
+    `;
 }
+        document.body.insertAdjacentHTML('beforeend', modalConatiner);
 
+        const button = document.getElementById('modal-close-btn');
+        const modal = document.querySelector('.modal-container');
+
+        button.addEventListener('click', () => {
+        modal.remove();
+    });
+}

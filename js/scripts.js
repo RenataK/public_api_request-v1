@@ -14,7 +14,7 @@ fetch(randomUserUrl)
     .then(res => res.json())
     .then(data => {
         generateCard(data.results);
-        employeeData.push(data.results);
+        employeeData.push(...data.results);
         console.log(employeeData);
     })  
     .then(() => createModalPopout())
@@ -49,19 +49,18 @@ function createModalPopout() {
     let card = document.querySelectorAll('.card');
     for (let i=0; i<card.length; i++) {
         card[i].addEventListener('click', (e) => {
-            if (e.composedPath().includes(card[i])) {
+           let index = [...card].indexOf(e.currentTarget);
+            // if (e.composedPath().includes(card[i])) {
                 // console.log(e.composedPath());
                 // console.log(e.target);
-                generateModal(card[i]);
-                //generateModal(employeeData[i])
-            };
+                //generateModal(card[i]);
+                generateModal(employeeData[index]);
         });
     }
 }
 
-function generateModal() { 
-    
-    const modalContainer = employeeData.map(person => { return `
+function generateModal(person) { 
+    const modalContainer =  `
     <div class="modal-container">
     <div class="modal">
         <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
@@ -79,30 +78,7 @@ function generateModal() {
         </div>
     </div>
     `;
-    });
-
-
-    // const modalConatiner = person => { return `
-    // <div class="modal-container">
-    // <div class="modal">
-    //     <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
-    //     <div class="modal-info-container">
-    //         <img class="modal-img" src="${person.picture.large}" alt="profile picture">
-    //         <h3 id="name" class="modal-name cap">${person.name.first} ${person.name.last}</h3>
-    //         <p class="modal-text">${person.email}</p>
-    //         <p class="modal-text cap">${person.location.city}</p>
-    //         <hr>
-    //         <p class="modal-text">${person.phone}</p>
-    //         <p class="modal-text">${person.location.street.number} ${person.location.street.name} 
-    //         ${person.location.city}, ${person.location.state}
-    //         ${person.location.postcode}</p>
-    //         <p class="modal-text">Birthday: ${person.dob.date}</p>
-    //     </div>
-    // </div>
-    // `;
-//};
-    
-        document.body.insertAdjacentHTML('beforeend', modalConatiner);
+        document.body.insertAdjacentHTML('beforeend', modalContainer);
 
         const button = document.getElementById('modal-close-btn');
         const modal = document.querySelector('.modal-container');

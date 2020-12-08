@@ -31,14 +31,14 @@ function searchBar() {
     searchBar.addEventListener('keyup', (e) => {
         const searchString = e.target.value.toLowerCase();
         //console.log(searchString);
-        const filteredCharacters = employeeData.filter((results) => {
-            return ( 
-                results.name.first.toLowerCase().includes(searchString) ||
-                results.name.last.toLowerCase().includes(searchString) 
+        const filteredEmployees = employeeData.filter((employees) => {
+            return  ( 
+                employees.name.first.toLowerCase().includes(searchString) ||
+                employees.name.last.toLowerCase().includes(searchString) 
                 ) 
         });
-        console.log(filteredCharacters);
-        generateCard(filteredCharacters);
+        console.log(filteredEmployees);
+        generateCard(filteredEmployees);
       });
 }
 

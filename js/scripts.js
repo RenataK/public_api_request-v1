@@ -1,8 +1,10 @@
 const randomUserUrl = 'https://randomuser.me/api/?nat=us&results=12';
 const searchContainer = document.querySelector('.search-container');
 const gallery = document.getElementById('gallery');
-const body = document.querySelector('body');
+const header = document.querySelector('header h1').style.color = '#eee';
+const body = document.querySelector('body').style.background = '#111d4a';
 let employeeData = [];
+let users = [];
 
 const loadEmployees = async () => {
     try {
@@ -37,8 +39,13 @@ function searchBar() {
                 employees.name.last.toLowerCase().includes(searchString) 
                 ) 
         });
-        console.log(filteredEmployees);
+        //console.log(filteredEmployees);
+        //users.push(filteredEmployees);
+        gallery.innerHTML = '';
         generateCard(filteredEmployees);
+        if (filteredEmployees.length == 0) {
+            gallery.innerHTML = '<h3>No results</h3>';
+        }
       });
 }
 

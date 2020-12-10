@@ -4,7 +4,7 @@ const gallery = document.getElementById('gallery');
 const header = document.querySelector('header h1').style.color = '#eee';
 const body = document.querySelector('body').style.background = '#111d4a';
 let employeeData = [];
-let users = [];
+let cardX = document.getElementById('gallery').children;
 
 const loadEmployees = async () => {
     try {
@@ -28,24 +28,26 @@ function searchBar() {
     </form>
     `;
     searchContainer.insertAdjacentHTML('beforeend', search);
+    let cardX = document.getElementsByClassName('card');
 
     const searchBar = document.getElementById('search-input');
     searchBar.addEventListener('keyup', (e) => {
         const searchString = e.target.value.toLowerCase();
         //console.log(searchString);
         const filteredEmployees = employeeData.filter((employees) => {
-            return  ( 
+            return (
                 employees.name.first.toLowerCase().includes(searchString) ||
                 employees.name.last.toLowerCase().includes(searchString) 
-                ) 
+                )
         });
-        //console.log(filteredEmployees);
-        //users.push(filteredEmployees);
-        gallery.innerHTML = '';
-        generateCard(filteredEmployees);
         if (filteredEmployees.length == 0) {
-            gallery.innerHTML = '<h3>No results</h3>';
-        }
+            gallery.style.display = 'none';
+        } else {
+            gallery.style.display = '';
+            console.log(filteredEmployees);
+        }         
+        // gallery.innerHTML = 'none';
+        // generateCard(filteredEmployees);
       });
 }
 

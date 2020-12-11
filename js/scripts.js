@@ -4,9 +4,17 @@ const gallery = document.getElementById('gallery');
 const header = document.querySelector('header h1').style.color = '#eee';
 const body = document.querySelector('body').style.background = '#111d4a';
 let employeeData = [];
-//let employeeCard = document.querySelectorAll('.card');
+const employeeCard = document.getElementsByClassName('card');
 
-
+/**
+ * created loadEmployees variable using async/await where:
+ * url is fetched
+ * respose is parsed to json
+ * the data.results is passed to generateCard function 
+ * that is then pushed to employeeData
+ * Modal popout and searchBar functions run
+ * using try and catch to test errors and display them to console.
+ */
 const loadEmployees = async () => {
     try {
         const res = await fetch(randomUserUrl) 
@@ -20,7 +28,13 @@ const loadEmployees = async () => {
         console.error(err);
     }
 }
-
+/**
+ * Created the search bar feature using the given markup
+ * and appending it to the page. 
+ * Added an event listener for keyup, looped thru the employee
+ * cards to make sure the textContent in the h3 div matches
+ * the search string and hid/displayed the appropriate card. 
+ */
 function searchBar() {
     const search = `
     <form action="#" method="get">
@@ -29,20 +43,19 @@ function searchBar() {
     </form>
     `;
     searchContainer.insertAdjacentHTML('beforeend', search);
-    let employeeCard = document.getElementsByClassName('card');
 
     const searchBar = document.getElementById('search-input');
     searchBar.addEventListener('keyup', (e) => {
     const searchString = e.target.value.toLowerCase();
         for (let i=0; i<employeeCard.length; i++) {
             if (
-                employeeCard[i].name.toLowerCase().includes(searchString) ) {
-                    employeeCard.style.display = 'block';
-                } else {
-                    employeeCard.style.display = 'none';
-                }
-        }
-});
+            employeeCard[i].querySelector('h3').textContent.toLowerCase().includes(searchString) ) {
+                employeeCard[i].style.display = '';
+            } else {
+                employeeCard[i].style.display = 'none';
+            }
+         }
+    });
 }
 
 /** creating the generateCards function 
@@ -80,6 +93,10 @@ function createModalPopout() {
     }
 }
 
+/** creating the generateModal function 
+used placeholders to retrieve person data.
+Attached an event listener to close button to exit the modal. 
+**/
 function generateModal(person) { 
     const modalContainer =  `
     <div class="modal-container">

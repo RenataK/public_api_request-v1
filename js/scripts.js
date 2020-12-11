@@ -4,7 +4,8 @@ const gallery = document.getElementById('gallery');
 const header = document.querySelector('header h1').style.color = '#eee';
 const body = document.querySelector('body').style.background = '#111d4a';
 let employeeData = [];
-let cardX = document.getElementById('gallery').children;
+//let employeeCard = document.querySelectorAll('.card');
+
 
 const loadEmployees = async () => {
     try {
@@ -28,27 +29,20 @@ function searchBar() {
     </form>
     `;
     searchContainer.insertAdjacentHTML('beforeend', search);
-    let cardX = document.getElementsByClassName('card');
+    let employeeCard = document.getElementsByClassName('card');
 
     const searchBar = document.getElementById('search-input');
     searchBar.addEventListener('keyup', (e) => {
-        const searchString = e.target.value.toLowerCase();
-        //console.log(searchString);
-        const filteredEmployees = employeeData.filter((employees) => {
-            return (
-                employees.name.first.toLowerCase().includes(searchString) ||
-                employees.name.last.toLowerCase().includes(searchString) 
-                )
-        });
-        if (filteredEmployees.length == 0) {
-            gallery.style.display = 'none';
-        } else {
-            gallery.style.display = '';
-            console.log(filteredEmployees);
-        }         
-        // gallery.innerHTML = 'none';
-        // generateCard(filteredEmployees);
-      });
+    const searchString = e.target.value.toLowerCase();
+        for (let i=0; i<employeeCard.length; i++) {
+            if (
+                employeeCard[i].name.toLowerCase().includes(searchString) ) {
+                    employeeCard.style.display = 'block';
+                } else {
+                    employeeCard.style.display = 'none';
+                }
+        }
+});
 }
 
 /** creating the generateCards function 
